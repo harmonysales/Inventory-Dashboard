@@ -6,309 +6,71 @@
 <title>차량 재고 현황</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #F0F4F8;
-    --surface: #FFFFFF;
-    --surface2: #F7F9FC;
-    --border: #DDE3EC;
-    --text-primary: #1A2233;
-    --text-secondary: #4A5568;
-    --text-muted: #8A97A8;
-    --accent: #2563EB;
-    --accent-light: #EFF6FF;
-    --accent2: #0EA5E9;
-    --green: #16A34A;
-    --green-light: #DCFCE7;
-    --yellow: #D97706;
-    --yellow-light: #FEF3C7;
-    --red: #DC2626;
-    --red-light: #FEE2E2;
-    --purple: #7C3AED;
-    --purple-light: #EDE9FE;
-    --gray: #64748B;
+    --bg: #F0F4F8; --surface: #FFFFFF; --surface2: #F7F9FC;
+    --border: #DDE3EC; --text-primary: #1A2233; --text-secondary: #4A5568;
+    --text-muted: #8A97A8; --accent: #2563EB; --accent-light: #EFF6FF;
     --gray-light: #F1F5F9;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
   }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 15px; line-height: 1.5; min-height: 100vh; }
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    font-size: 15px;
-    line-height: 1.5;
-    min-height: 100vh;
-  }
-
-  /* Header */
-  .header {
-    background: var(--surface);
-    border-bottom: 2px solid var(--border);
-    padding: 20px 32px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-  }
-  .header-icon {
-    width: 44px; height: 44px;
-    background: var(--accent);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 22px;
-  }
+  .header { background: var(--surface); border-bottom: 2px solid var(--border); padding: 20px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+  .header-icon { width: 44px; height: 44px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; }
   .header-title h1 { font-size: 20px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
   .header-title p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-  .header-badge {
-    margin-left: auto;
-    background: var(--accent-light);
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 13px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid #BFDBFE;
-  }
+  .header-badge { margin-left: auto; background: var(--accent-light); color: var(--accent); font-weight: 700; font-size: 13px; padding: 6px 14px; border-radius: 20px; border: 1px solid #BFDBFE; }
 
-  /* Main layout */
   .main { padding: 28px 32px; max-width: 1600px; margin: 0 auto; }
 
-  /* Filter Panel */
-  .filter-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 24px;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow);
-  }
-  .filter-panel-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .filter-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr) auto;
-    gap: 14px;
-    align-items: end;
-  }
-  .filter-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-  }
-  .filter-group select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--text-primary);
-    background: var(--surface2);
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A97A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .filter-group select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
-  }
-  .btn-reset {
-    padding: 10px 20px;
-    background: var(--gray-light);
-    color: var(--text-secondary);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    display: flex; align-items: center; gap: 6px;
-  }
+  .filter-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 24px; box-shadow: var(--shadow); }
+  .filter-panel-title { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+  .filter-grid { display: grid; grid-template-columns: repeat(5, 1fr) auto; gap: 14px; align-items: end; }
+  .filter-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .filter-group select { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--text-primary); background: var(--surface2); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A97A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; transition: border-color 0.2s, box-shadow 0.2s; }
+  .filter-group select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+  .btn-reset { padding: 10px 20px; background: var(--gray-light); color: var(--text-secondary); border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
   .btn-reset:hover { background: var(--border); color: var(--text-primary); }
 
-  /* Summary cards */
-  .summary-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .summary-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.2s, transform 0.2s;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .summary-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--card-accent, var(--accent));
-  }
+  .summary-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; position: relative; overflow: hidden; }
+  .summary-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--card-accent, var(--accent)); }
   .summary-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
   .summary-card.active { border-color: var(--card-accent, var(--accent)); box-shadow: 0 0 0 2px var(--card-accent, var(--accent)); }
   .card-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
   .card-count { font-size: 28px; font-weight: 800; color: var(--text-primary); letter-spacing: -1px; line-height: 1; }
   .card-pct { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-  /* Table section */
-  .table-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .table-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--surface2);
-  }
+  .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .table-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: var(--surface2); }
   .table-header h2 { font-size: 16px; font-weight: 700; }
-  .result-count {
-    margin-left: auto;
-    font-size: 13px;
-    color: var(--text-muted);
-    background: var(--gray-light);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-  }
+  .result-count { margin-left: auto; font-size: 13px; color: var(--text-muted); background: var(--gray-light); padding: 4px 12px; border-radius: 20px; font-weight: 600; }
 
   .table-wrap { overflow-x: auto; max-height: 560px; overflow-y: auto; }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-  }
-  thead th {
-    position: sticky;
-    top: 0;
-    background: #EEF2F7;
-    color: var(--text-secondary);
-    font-weight: 700;
-    font-size: 12.5px;
-    padding: 11px 14px;
-    text-align: left;
-    border-bottom: 2px solid var(--border);
-    white-space: nowrap;
-    z-index: 10;
-  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th { position: sticky; top: 0; background: #EEF2F7; color: var(--text-secondary); font-weight: 700; font-size: 12.5px; padding: 11px 14px; text-align: left; border-bottom: 2px solid var(--border); white-space: nowrap; z-index: 10; }
   tbody tr { border-bottom: 1px solid #F0F4F8; transition: background 0.1s; }
   tbody tr:hover { background: #F7F9FC; }
   tbody td { padding: 11px 14px; white-space: nowrap; color: var(--text-primary); }
 
-  /* Status badges */
-  .badge {
-    display: inline-flex; align-items: center;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .badge-출고 { background: #DBEAFE; color: #1D4ED8; }
-  .badge-매각 { background: #FCE7F3; color: #9D174D; }
-  .badge-상품화 { background: #FEF3C7; color: #92400E; }
-  .badge-상품 { background: #D1FAE5; color: #065F46; }
-  .badge-구매 { background: #EDE9FE; color: #5B21B6; }
-  .badge-탁송 { background: #FEE2E2; color: #991B1B; }
-  .badge-영업 { background: #F0FDF4; color: #166534; }
-  .badge-default { background: #F3F4F6; color: #374151; }
+  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 
-  /* Pagination */
-  .pagination {
-    padding: 16px 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface2);
-  }
+  .pagination { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface2); }
   .page-info { font-size: 13px; color: var(--text-muted); }
-  .page-btns { display: flex; gap: 6px; }
-  .page-btn {
-    padding: 6px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 7px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    background: var(--surface);
-    color: var(--text-secondary);
-    transition: all 0.2s;
-    min-width: 36px;
-    text-align: center;
-  }
+  .page-btns { display: flex; gap: 6px; align-items: center; }
+  .page-btn { padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; background: var(--surface); color: var(--text-secondary); transition: all 0.2s; min-width: 36px; text-align: center; }
   .page-btn:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
   .page-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
   .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .loading {
-    text-align: center;
-    padding: 80px;
-    color: var(--text-muted);
-    font-size: 15px;
-  }
-  .spinner {
-    width: 36px; height: 36px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
+  .loading { text-align: center; padding: 80px; color: var(--text-muted); font-size: 15px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .no-data { text-align: center; padding: 60px; color: var(--text-muted); }
 
-  .no-data {
-    text-align: center;
-    padding: 60px;
-    color: var(--text-muted);
-  }
-  .no-data .icon { font-size: 48px; margin-bottom: 12px; }
-
-  @media (max-width: 1200px) {
-    .filter-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 768px) {
-    .main { padding: 16px; }
-    .filter-grid { grid-template-columns: repeat(2, 1fr); }
-    .summary-row { grid-template-columns: repeat(2, 1fr); }
-    .header { padding: 16px; }
-  }
+  @media (max-width: 1200px) { .filter-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 768px) { .main { padding: 16px; } .filter-grid { grid-template-columns: repeat(2, 1fr); } .summary-row { grid-template-columns: repeat(2, 1fr); } .header { padding: 16px; } }
 </style>
 </head>
 <body>
@@ -323,45 +85,23 @@
 </div>
 
 <div class="main">
-  <!-- Filter Panel -->
   <div class="filter-panel">
-    <div class="filter-panel-title">
-      🔍 &nbsp;필터 조건
-    </div>
+    <div class="filter-panel-title">🔍 &nbsp;필터 조건</div>
     <div class="filter-grid">
-      <div class="filter-group">
-        <label>기준년월</label>
-        <select id="filterMonth"><option value="">전체</option></select>
-      </div>
-      <div class="filter-group">
-        <label>신차구분</label>
-        <select id="filterNew"><option value="">전체</option></select>
-      </div>
-      <div class="filter-group">
-        <label>시리즈명</label>
-        <select id="filterSeries"><option value="">전체</option></select>
-      </div>
-      <div class="filter-group">
-        <label>차종구분</label>
-        <select id="filterType"><option value="">전체</option></select>
-      </div>
-      <div class="filter-group">
-        <label>유종</label>
-        <select id="filterFuel"><option value="">전체</option></select>
-      </div>
-      <div>
-        <label style="display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">&nbsp;</label>
-        <button class="btn-reset" onclick="resetFilters()">↺ &nbsp;초기화</button>
-      </div>
+      <div class="filter-group"><label>기준년월</label><select id="fYm"><option value="">전체</option></select></div>
+      <div class="filter-group"><label>신차구분</label><select id="fNc"><option value="">전체</option></select></div>
+      <div class="filter-group"><label>시리즈명</label><select id="fSr"><option value="">전체</option></select></div>
+      <div class="filter-group"><label>차종구분</label><select id="fCt"><option value="">전체</option></select></div>
+      <div class="filter-group"><label>유종</label><select id="fFl"><option value="">전체</option></select></div>
+      <div><label style="display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">&nbsp;</label>
+        <button class="btn-reset" onclick="resetFilters()">↺ &nbsp;초기화</button></div>
     </div>
   </div>
 
-  <!-- Summary Cards -->
   <div class="summary-row" id="summaryRow">
     <div class="loading"><div class="spinner"></div>재고 현황 집계 중...</div>
   </div>
 
-  <!-- Table -->
   <div class="table-section">
     <div class="table-header">
       <h2>📋 차량 목록</h2>
@@ -371,20 +111,10 @@
       <table>
         <thead>
           <tr>
-            <th>자산번호</th>
-            <th>자산상태</th>
-            <th>신차구분</th>
-            <th>시리즈명</th>
-            <th>모델명</th>
-            <th>차종구분</th>
-            <th>유종</th>
-            <th>차량번호</th>
-            <th>년형</th>
-            <th>주행거리(KM)</th>
-            <th>차량가격</th>
-            <th>차량위치</th>
-            <th>매입계약일</th>
-            <th>경과일</th>
+            <th>자산번호</th><th>자산상태</th><th>신차구분</th><th>시리즈명</th>
+            <th>모델명</th><th>차종구분</th><th>유종</th><th>차량번호</th>
+            <th>년형</th><th>주행거리(KM)</th><th>차량가격</th><th>차량위치</th>
+            <th>매입계약일</th><th>경과일</th>
           </tr>
         </thead>
         <tbody id="tableBody">
@@ -400,24 +130,27 @@
 </div>
 
 <script>
-let allData = [];
-let filtered = [];
-let currentPage = 1;
-const PAGE_SIZE = 50;
-let activeStatusFilter = null;
+// 컬럼 단축키 매핑 (JSON 키 → 표시용)
+// id=자산번호, dt=매입계약일, st=자산상태, nc=신차구분, sr=시리즈명
+// ct=차종구분, fl=유종, pl=차량번호, md=모델명, pr=차량가격
+// yr=년형, km=주행거리, loc=차량위치, el=경과일, ym=기준년월
 
-const STATUS_CONFIG = {
-  '출고(실행)':   { color: '#2563EB', light: '#DBEAFE', badge: 'badge-출고' },
-  '매각':        { color: '#BE185D', light: '#FCE7F3', badge: 'badge-매각' },
-  '상품화진행중':  { color: '#D97706', light: '#FEF3C7', badge: 'badge-상품화' },
-  '상품':        { color: '#059669', light: '#D1FAE5', badge: 'badge-상품' },
-  '구매완료':     { color: '#7C3AED', light: '#EDE9FE', badge: 'badge-구매' },
-  '매각진행중':   { color: '#DB2777', light: '#FCE7F3', badge: 'badge-매각' },
-  '탁송(출고)':  { color: '#DC2626', light: '#FEE2E2', badge: 'badge-탁송' },
-  '영업 외 출고': { color: '#16A34A', light: '#DCFCE7', badge: 'badge-영업' },
-  '상품화완료':   { color: '#0891B2', light: '#CFFAFE', badge: 'badge-상품' },
-  '구매준비중':   { color: '#9333EA', light: '#F3E8FF', badge: 'badge-구매' },
-  '상품준비':     { color: '#65A30D', light: '#ECFCCB', badge: 'badge-상품' },
+let allData = [], filtered = [], currentPage = 1;
+const PAGE_SIZE = 50;
+let activeStatus = null;
+
+const STATUS_CFG = {
+  '출고(실행)':   { color: '#2563EB', light: '#DBEAFE' },
+  '매각':        { color: '#BE185D', light: '#FCE7F3' },
+  '상품화진행중':  { color: '#D97706', light: '#FEF3C7' },
+  '상품':        { color: '#059669', light: '#D1FAE5' },
+  '구매완료':     { color: '#7C3AED', light: '#EDE9FE' },
+  '매각진행중':   { color: '#DB2777', light: '#FCE7F3' },
+  '탁송(출고)':  { color: '#DC2626', light: '#FEE2E2' },
+  '영업 외 출고': { color: '#16A34A', light: '#DCFCE7' },
+  '상품화완료':   { color: '#0891B2', light: '#CFFAFE' },
+  '구매준비중':   { color: '#9333EA', light: '#F3E8FF' },
+  '상품준비':     { color: '#65A30D', light: '#ECFCCB' },
 };
 
 async function loadData() {
@@ -429,216 +162,135 @@ async function loadData() {
     document.getElementById('headerSub').textContent = `기준일: 2026년 06월 25일 · 총 ${allData.length.toLocaleString()}건`;
     document.getElementById('totalBadge').textContent = `총 ${allData.length.toLocaleString()}건`;
   } catch(e) {
-    document.getElementById('tableBody').innerHTML = `<tr><td colspan="14" style="text-align:center;padding:60px;color:#DC2626;">⚠️ 데이터를 불러올 수 없습니다. JSON 파일을 같은 폴더에 두세요.</td></tr>`;
+    document.getElementById('tableBody').innerHTML = `<tr><td colspan="14" style="text-align:center;padding:60px;color:#DC2626;">⚠️ inventory_data.json 파일을 같은 폴더에 넣어주세요.</td></tr>`;
+    document.getElementById('summaryRow').innerHTML = '';
   }
 }
 
-function getUnique(key) {
-  const vals = [...new Set(allData.map(r => r[key]).filter(v => v != null && v !== ''))];
-  return vals.sort((a, b) => String(a).localeCompare(String(b), 'ko'));
+function getUniq(key) {
+  return [...new Set(allData.map(r => r[key]).filter(v => v != null && v !== ''))].sort((a,b)=>String(a).localeCompare(String(b),'ko'));
 }
-
+function pop(id, vals) {
+  const s = document.getElementById(id);
+  vals.forEach(v => { const o = document.createElement('option'); o.value = o.textContent = v; s.appendChild(o); });
+}
 function initFilters() {
-  const months = [...new Set(allData.map(r => r['기준년월']).filter(Boolean))].sort().reverse();
-  populateSelect('filterMonth', months);
-  populateSelect('filterNew', getUnique('신차구분'));
-  populateSelect('filterSeries', getUnique('시리즈명'));
-  populateSelect('filterType', getUnique('차종구분'));
-  populateSelect('filterFuel', getUnique('유종'));
-
-  ['filterMonth','filterNew','filterSeries','filterType','filterFuel'].forEach(id => {
-    document.getElementById(id).addEventListener('change', () => { activeStatusFilter = null; applyFilters(); });
+  const yms = [...new Set(allData.map(r=>r.ym).filter(Boolean))].sort().reverse();
+  pop('fYm', yms); pop('fNc', getUniq('nc')); pop('fSr', getUniq('sr'));
+  pop('fCt', getUniq('ct')); pop('fFl', getUniq('fl'));
+  ['fYm','fNc','fSr','fCt','fFl'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => { activeStatus = null; applyFilters(); });
   });
 }
-
-function populateSelect(id, values) {
-  const sel = document.getElementById(id);
-  values.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v; opt.textContent = v;
-    sel.appendChild(opt);
-  });
+function getF() {
+  return { ym: fYm.value, nc: fNc.value, sr: fSr.value, ct: fCt.value, fl: fFl.value };
 }
-
-function getFilterValues() {
-  return {
-    month: document.getElementById('filterMonth').value,
-    newCar: document.getElementById('filterNew').value,
-    series: document.getElementById('filterSeries').value,
-    type: document.getElementById('filterType').value,
-    fuel: document.getElementById('filterFuel').value,
-  };
-}
-
 function applyFilters() {
-  const f = getFilterValues();
+  const f = getF();
   filtered = allData.filter(r => {
-    if (f.month && r['기준년월'] !== f.month) return false;
-    if (f.newCar && r['신차구분'] !== f.newCar) return false;
-    if (f.series && r['시리즈명'] !== f.series) return false;
-    if (f.type && r['차종구분'] !== f.type) return false;
-    if (f.fuel && r['유종'] !== f.fuel) return false;
-    if (activeStatusFilter && r['자산상태'] !== activeStatusFilter) return false;
+    if (f.ym && r.ym !== f.ym) return false;
+    if (f.nc && r.nc !== f.nc) return false;
+    if (f.sr && r.sr !== f.sr) return false;
+    if (f.ct && r.ct !== f.ct) return false;
+    if (f.fl && r.fl !== f.fl) return false;
+    if (activeStatus && r.st !== activeStatus) return false;
     return true;
   });
   currentPage = 1;
-  renderSummary();
-  renderTable();
+  renderSummary(); renderTable();
 }
-
 function resetFilters() {
-  ['filterMonth','filterNew','filterSeries','filterType','filterFuel'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  activeStatusFilter = null;
-  applyFilters();
+  ['fYm','fNc','fSr','fCt','fFl'].forEach(id => document.getElementById(id).value = '');
+  activeStatus = null; applyFilters();
 }
-
 function renderSummary() {
-  // Count by 자산상태 from current filtered (without status filter)
-  const f = getFilterValues();
+  const f = getF();
   const base = allData.filter(r => {
-    if (f.month && r['기준년월'] !== f.month) return false;
-    if (f.newCar && r['신차구분'] !== f.newCar) return false;
-    if (f.series && r['시리즈명'] !== f.series) return false;
-    if (f.type && r['차종구분'] !== f.type) return false;
-    if (f.fuel && r['유종'] !== f.fuel) return false;
+    if (f.ym && r.ym !== f.ym) return false;
+    if (f.nc && r.nc !== f.nc) return false;
+    if (f.sr && r.sr !== f.sr) return false;
+    if (f.ct && r.ct !== f.ct) return false;
+    if (f.fl && r.fl !== f.fl) return false;
     return true;
   });
-
   const counts = {};
-  base.forEach(r => {
-    const s = r['자산상태'] || '미분류';
-    counts[s] = (counts[s] || 0) + 1;
-  });
+  base.forEach(r => { const s = r.st || '미분류'; counts[s] = (counts[s]||0)+1; });
   const total = base.length;
-
-  const ORDER = ['출고(실행)', '매각', '상품화진행중', '상품', '구매완료', '매각진행중', '탁송(출고)', '영업 외 출고', '상품화완료', '구매준비중', '상품준비'];
-  const sorted = ORDER.filter(k => counts[k]).concat(Object.keys(counts).filter(k => !ORDER.includes(k)));
-
+  const ORDER = ['출고(실행)','매각','상품화진행중','상품','구매완료','매각진행중','탁송(출고)','영업 외 출고','상품화완료','구매준비중','상품준비'];
+  const sorted = ORDER.filter(k=>counts[k]).concat(Object.keys(counts).filter(k=>!ORDER.includes(k)));
   const row = document.getElementById('summaryRow');
   row.innerHTML = '';
-
-  // Total card
-  const totalCard = document.createElement('div');
-  totalCard.className = 'summary-card' + (!activeStatusFilter ? ' active' : '');
-  totalCard.style.setProperty('--card-accent', '#1A2233');
-  totalCard.innerHTML = `<div class="card-label">전체</div><div class="card-count">${total.toLocaleString()}</div><div class="card-pct">100%</div>`;
-  totalCard.onclick = () => { activeStatusFilter = null; applyFilters(); };
-  row.appendChild(totalCard);
-
-  sorted.forEach(status => {
-    const cnt = counts[status] || 0;
-    const cfg = STATUS_CONFIG[status] || { color: '#64748B', light: '#F1F5F9' };
-    const pct = total > 0 ? ((cnt / total) * 100).toFixed(1) : '0.0';
-    const card = document.createElement('div');
-    card.className = 'summary-card' + (activeStatusFilter === status ? ' active' : '');
-    card.style.setProperty('--card-accent', cfg.color);
-    card.innerHTML = `<div class="card-label">${status}</div><div class="card-count" style="color:${cfg.color}">${cnt.toLocaleString()}</div><div class="card-pct">${pct}%</div>`;
-    card.onclick = () => {
-      activeStatusFilter = activeStatusFilter === status ? null : status;
-      applyFilters();
-    };
-    row.appendChild(card);
+  const mkCard = (label, cnt, color, isActive, onClick) => {
+    const pct = total > 0 ? ((cnt/total)*100).toFixed(1) : '0.0';
+    const d = document.createElement('div');
+    d.className = 'summary-card' + (isActive ? ' active' : '');
+    d.style.setProperty('--card-accent', color);
+    d.innerHTML = `<div class="card-label">${label}</div><div class="card-count" style="color:${color}">${cnt.toLocaleString()}</div><div class="card-pct">${pct}%</div>`;
+    d.onclick = onClick; row.appendChild(d);
+  };
+  mkCard('전체', total, '#1A2233', !activeStatus, () => { activeStatus = null; applyFilters(); });
+  sorted.forEach(st => {
+    const cfg = STATUS_CFG[st] || { color: '#64748B' };
+    mkCard(st, counts[st]||0, cfg.color, activeStatus===st, () => { activeStatus = activeStatus===st ? null : st; applyFilters(); });
   });
 }
-
-function getStatusBadgeClass(status) {
-  const map = {
-    '출고(실행)': 'badge-출고',
-    '매각': 'badge-매각',
-    '매각진행중': 'badge-매각',
-    '상품화진행중': 'badge-상품화',
-    '상품화완료': 'badge-상품',
-    '상품': 'badge-상품',
-    '상품준비': 'badge-상품',
-    '구매완료': 'badge-구매',
-    '구매준비중': 'badge-구매',
-    '탁송(출고)': 'badge-탁송',
-    '영업 외 출고': 'badge-영업',
-  };
-  return map[status] || 'badge-default';
-}
-
 function renderTable() {
   const tbody = document.getElementById('tableBody');
   const total = filtered.length;
   const totalPages = Math.ceil(total / PAGE_SIZE);
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const pageData = filtered.slice(start, start + PAGE_SIZE);
-
+  const start = (currentPage-1)*PAGE_SIZE;
+  const page = filtered.slice(start, start+PAGE_SIZE);
   document.getElementById('resultCount').textContent = `${total.toLocaleString()}건`;
-
-  if (pageData.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="14"><div class="no-data"><div class="icon">🔍</div>조건에 맞는 차량이 없습니다.</div></td></tr>`;
-    document.getElementById('pageInfo').textContent = '검색 결과 없음';
-    document.getElementById('pageBtns').innerHTML = '';
-    return;
+  if (!page.length) {
+    tbody.innerHTML = `<tr><td colspan="14"><div class="no-data">🔍 조건에 맞는 차량이 없습니다.</div></td></tr>`;
+    pageInfo.textContent = '검색 결과 없음'; pageBtns.innerHTML = ''; return;
   }
-
-  tbody.innerHTML = pageData.map(r => {
-    const badgeCls = getStatusBadgeClass(r['자산상태']);
-    const price = r['차량가격'] ? (r['차량가격'] / 10000).toFixed(0) + '만원' : '-';
-    const km = r['주행거리 (KM)'] ? Number(r['주행거리 (KM)']).toLocaleString() + ' km' : '-';
-    const model = (r['모델명'] || '-').length > 22 ? r['모델명'].substring(0, 22) + '…' : (r['모델명'] || '-');
+  tbody.innerHTML = page.map(r => {
+    const cfg = STATUS_CFG[r.st] || { color:'#64748B', light:'#F1F5F9' };
+    const price = r.pr ? Math.round(r.pr/10000).toLocaleString()+'만원' : '-';
+    const km = r.km ? Number(r.km).toLocaleString()+' km' : '-';
+    const md = (r.md||'-').length > 22 ? r.md.substring(0,22)+'…' : (r.md||'-');
     return `<tr>
-      <td style="font-family:monospace;font-size:12px;color:#64748B">${r['자산번호'] || '-'}</td>
-      <td><span class="badge ${badgeCls}">${r['자산상태'] || '-'}</span></td>
-      <td>${r['신차구분'] || '-'}</td>
-      <td><strong>${r['시리즈명'] || '-'}</strong></td>
-      <td style="color:var(--text-secondary)">${model}</td>
-      <td>${r['차종구분'] || '-'}</td>
-      <td>${r['유종'] || '-'}</td>
-      <td style="font-family:monospace;font-size:13px">${r['차량번호'] || '-'}</td>
-      <td>${r['년형'] ? Math.floor(r['년형']) + '년' : '-'}</td>
+      <td style="font-family:monospace;font-size:12px;color:#64748B">${r.id||'-'}</td>
+      <td><span class="badge" style="background:${cfg.light};color:${cfg.color}">${r.st||'-'}</span></td>
+      <td>${r.nc||'-'}</td>
+      <td><strong>${r.sr||'-'}</strong></td>
+      <td style="color:var(--text-secondary)">${md}</td>
+      <td>${r.ct||'-'}</td>
+      <td>${r.fl||'-'}</td>
+      <td style="font-family:monospace;font-size:13px">${r.pl||'-'}</td>
+      <td>${r.yr||'-'}</td>
       <td style="text-align:right">${km}</td>
       <td style="text-align:right;font-weight:600;color:var(--accent)">${price}</td>
-      <td>${r['차량위치'] || '-'}</td>
-      <td style="font-size:12.5px;color:var(--text-muted)">${r['매입계약일'] || '-'}</td>
-      <td style="text-align:right">${r['경과일'] != null ? r['경과일'] + '일' : '-'}</td>
+      <td>${r.loc||'-'}</td>
+      <td style="font-size:12.5px;color:var(--text-muted)">${r.dt||'-'}</td>
+      <td style="text-align:right">${r.el!=null ? r.el+'일' : '-'}</td>
     </tr>`;
   }).join('');
 
-  // Pagination
-  document.getElementById('pageInfo').textContent = `${start + 1} – ${Math.min(start + PAGE_SIZE, total)} / ${total.toLocaleString()}건`;
-
-  const pageBtns = document.getElementById('pageBtns');
+  pageInfo.textContent = `${(start+1).toLocaleString()} – ${Math.min(start+PAGE_SIZE,total).toLocaleString()} / ${total.toLocaleString()}건`;
   pageBtns.innerHTML = '';
-
-  const makeBtn = (label, page, disabled = false) => {
-    const btn = document.createElement('button');
-    btn.className = 'page-btn' + (page === currentPage ? ' active' : '');
-    btn.textContent = label;
-    btn.disabled = disabled;
-    btn.onclick = () => { currentPage = page; renderTable(); };
-    return btn;
+  const mkBtn = (label, pg, disabled=false) => {
+    const b = document.createElement('button');
+    b.className = 'page-btn' + (pg===currentPage ? ' active' : '');
+    b.textContent = label; b.disabled = disabled;
+    b.onclick = () => { currentPage = pg; renderTable(); }; return b;
   };
-
-  pageBtns.appendChild(makeBtn('‹ 이전', currentPage - 1, currentPage <= 1));
-
+  pageBtns.appendChild(mkBtn('‹', currentPage-1, currentPage<=1));
   const range = [];
-  if (totalPages <= 7) {
-    for (let i = 1; i <= totalPages; i++) range.push(i);
-  } else {
+  if (totalPages<=7) { for(let i=1;i<=totalPages;i++) range.push(i); }
+  else {
     range.push(1);
-    if (currentPage > 3) range.push('…');
-    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) range.push(i);
-    if (currentPage < totalPages - 2) range.push('…');
+    if (currentPage>3) range.push('…');
+    for(let i=Math.max(2,currentPage-1);i<=Math.min(totalPages-1,currentPage+1);i++) range.push(i);
+    if (currentPage<totalPages-2) range.push('…');
     range.push(totalPages);
   }
   range.forEach(p => {
-    if (p === '…') {
-      const span = document.createElement('span');
-      span.textContent = '…';
-      span.style.padding = '6px 4px';
-      span.style.color = 'var(--text-muted)';
-      pageBtns.appendChild(span);
-    } else {
-      pageBtns.appendChild(makeBtn(p, p));
-    }
+    if (p==='…') { const s=document.createElement('span'); s.textContent='…'; s.style.cssText='padding:6px 4px;color:var(--text-muted)'; pageBtns.appendChild(s); }
+    else pageBtns.appendChild(mkBtn(p,p));
   });
-
-  pageBtns.appendChild(makeBtn('다음 ›', currentPage + 1, currentPage >= totalPages));
+  pageBtns.appendChild(mkBtn('›', currentPage+1, currentPage>=totalPages));
 }
 
 loadData();
