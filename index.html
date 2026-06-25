@@ -241,7 +241,7 @@ const PS=50;
 
 async function loadData(){
   try{
-    const r=await fetch('inventory_data.json');
+    const r=await fetch('https://raw.githubusercontent.com/harmonysales/Inventory-Dashboard/main/inventory_data.json');
     allData=await r.json();
     initFilters();
     render();
