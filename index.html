@@ -5,292 +5,423 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>차량 재고 현황</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #F0F4F8; --surface: #FFFFFF; --surface2: #F7F9FC;
-    --border: #DDE3EC; --text-primary: #1A2233; --text-secondary: #4A5568;
-    --text-muted: #8A97A8; --accent: #2563EB; --accent-light: #EFF6FF;
-    --gray-light: #F1F5F9;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-  }
-  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 15px; line-height: 1.5; min-height: 100vh; }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2F5F9;--surface:#fff;--surface2:#F8FAFC;--border:#E2E8F0;
+  --text1:#0F172A;--text2:#475569;--text3:#94A3B8;
+  --blue:#2563EB;--blue-l:#DBEAFE;--blue-d:#1D4ED8;
+  --green:#16A34A;--green-l:#DCFCE7;
+  --orange:#EA580C;--orange-l:#FFEDD5;
+  --purple:#7C3AED;--purple-l:#EDE9FE;
+  --pink:#DB2777;--pink-l:#FCE7F3;
+  --cyan:#0891B2;--cyan-l:#CFFAFE;
+  --red:#DC2626;--red-l:#FEE2E2;
+  --yellow:#CA8A04;--yellow-l:#FEF9C3;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --sh2:0 4px 12px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text1);font-size:14px;line-height:1.6}
 
-  .header { background: var(--surface); border-bottom: 2px solid var(--border); padding: 20px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
-  .header-icon { width: 44px; height: 44px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; }
-  .header-title h1 { font-size: 20px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
-  .header-title p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-  .header-badge { margin-left: auto; background: var(--accent-light); color: var(--accent); font-weight: 700; font-size: 13px; padding: 6px 14px; border-radius: 20px; border: 1px solid #BFDBFE; }
+/* ── HEADER ── */
+.header{background:var(--blue-d);padding:0 32px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:200;height:60px}
+.header-logo{display:flex;align-items:center;gap:10px;color:#fff}
+.header-logo span{font-size:22px}
+.header-logo h1{font-size:17px;font-weight:800;letter-spacing:-.4px}
+.header-date{margin-left:auto;color:rgba(255,255,255,.7);font-size:13px;font-weight:500}
+.header-total{margin-left:20px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:13px;padding:5px 14px;border-radius:20px}
 
-  .main { padding: 28px 32px; max-width: 1600px; margin: 0 auto; }
+/* ── LAYOUT ── */
+.main{padding:24px 32px;max-width:1600px;margin:0 auto}
 
-  .filter-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 24px; box-shadow: var(--shadow); }
-  .filter-panel-title { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
-  .filter-grid { display: grid; grid-template-columns: repeat(5, 1fr) auto; gap: 14px; align-items: end; }
-  .filter-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
-  .filter-group select { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--text-primary); background: var(--surface2); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A97A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; transition: border-color 0.2s, box-shadow 0.2s; }
-  .filter-group select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
-  .btn-reset { padding: 10px 20px; background: var(--gray-light); color: var(--text-secondary); border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-  .btn-reset:hover { background: var(--border); color: var(--text-primary); }
+/* ── FILTER BAR ── */
+.filter-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:22px;box-shadow:var(--sh);display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.fg{display:flex;flex-direction:column;gap:5px;min-width:140px}
+.fg label{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.fg select{padding:9px 32px 9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;color:var(--text1);background:var(--surface2);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 4.5L11 1' stroke='%2394A3B8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .2s,box-shadow .2s}
+.fg select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.fg select.has-value{border-color:var(--blue);background-color:#EFF6FF;color:var(--blue-d);font-weight:600}
+.btn-reset{padding:9px 18px;background:#fff;color:var(--text2);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:6px;align-self:flex-end}
+.btn-reset:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l)}
 
-  .summary-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-bottom: 24px; }
-  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; position: relative; overflow: hidden; }
-  .summary-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--card-accent, var(--accent)); }
-  .summary-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-  .summary-card.active { border-color: var(--card-accent, var(--accent)); box-shadow: 0 0 0 2px var(--card-accent, var(--accent)); }
-  .card-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
-  .card-count { font-size: 28px; font-weight: 800; color: var(--text-primary); letter-spacing: -1px; line-height: 1; }
-  .card-pct { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+/* ── SECTION TITLE ── */
+.sec-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
-  .table-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: var(--surface2); }
-  .table-header h2 { font-size: 16px; font-weight: 700; }
-  .result-count { margin-left: auto; font-size: 13px; color: var(--text-muted); background: var(--gray-light); padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+/* ── STATUS CARDS ── */
+.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:26px}
+.s-card{background:var(--surface);border:2px solid transparent;border-radius:12px;padding:16px 18px;box-shadow:var(--sh);cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.s-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c, var(--blue))}
+.s-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.s-card.active{border-color:var(--c,var(--blue));background:var(--cl,var(--blue-l))}
+.s-card .lbl{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;padding-left:4px}
+.s-card .num{font-size:26px;font-weight:900;color:var(--c,var(--blue));letter-spacing:-1px;line-height:1;padding-left:4px}
+.s-card .pct{font-size:11px;color:var(--text3);margin-top:4px;padding-left:4px}
 
-  .table-wrap { overflow-x: auto; max-height: 560px; overflow-y: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-  thead th { position: sticky; top: 0; background: #EEF2F7; color: var(--text-secondary); font-weight: 700; font-size: 12.5px; padding: 11px 14px; text-align: left; border-bottom: 2px solid var(--border); white-space: nowrap; z-index: 10; }
-  tbody tr { border-bottom: 1px solid #F0F4F8; transition: background 0.1s; }
-  tbody tr:hover { background: #F7F9FC; }
-  tbody td { padding: 11px 14px; white-space: nowrap; color: var(--text-primary); }
+/* ── KPI ROW ── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.kpi-icon{font-size:28px;margin-bottom:8px}
+.kpi-label{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kpi-value{font-size:32px;font-weight:900;color:var(--text1);letter-spacing:-1.5px;line-height:1}
+.kpi-sub{font-size:12px;color:var(--text3);margin-top:5px}
+.kpi-accent{position:absolute;right:0;top:0;bottom:0;width:5px;background:var(--ka,var(--blue))}
 
-  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:26px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh);overflow:hidden}
+.panel-head{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between}
+.panel-head h3{font-size:14px;font-weight:700}
+.panel-head .badge-sm{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;background:var(--blue-l);color:var(--blue)}
+.panel-body{padding:16px 20px}
 
-  .pagination { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface2); }
-  .page-info { font-size: 13px; color: var(--text-muted); }
-  .page-btns { display: flex; gap: 6px; align-items: center; }
-  .page-btn { padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; background: var(--surface); color: var(--text-secondary); transition: all 0.2s; min-width: 36px; text-align: center; }
-  .page-btn:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
-  .page-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-  .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Bar chart rows */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-row:last-child{margin-bottom:0}
+.bar-label{font-size:13px;font-weight:600;color:var(--text1);width:110px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;background:#F1F5F9;border-radius:6px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;transition:width .6s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:flex-end;padding-right:7px}
+.bar-fill span{font-size:11px;font-weight:700;color:#fff}
+.bar-count{font-size:13px;font-weight:700;color:var(--text2);width:48px;text-align:right;flex-shrink:0}
 
-  .loading { text-align: center; padding: 80px; color: var(--text-muted); font-size: 15px; }
-  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .no-data { text-align: center; padding: 60px; color: var(--text-muted); }
+/* Rental split */
+.split-row{display:flex;gap:10px;margin-bottom:14px}
+.split-item{flex:1;border-radius:10px;padding:14px 16px;text-align:center}
+.split-item .s-num{font-size:24px;font-weight:900;letter-spacing:-1px;line-height:1}
+.split-item .s-lbl{font-size:12px;font-weight:600;margin-top:4px;opacity:.8}
 
-  @media (max-width: 1200px) { .filter-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 768px) { .main { padding: 16px; } .filter-grid { grid-template-columns: repeat(2, 1fr); } .summary-row { grid-template-columns: repeat(2, 1fr); } .header { padding: 16px; } }
+/* ── TABLE ── */
+.table-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh);overflow:hidden}
+.table-head{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--surface2)}
+.table-head h2{font-size:15px;font-weight:700}
+.result-cnt{margin-left:auto;font-size:12px;color:var(--text3);background:#F1F5F9;padding:3px 12px;border-radius:20px;font-weight:600}
+.table-wrap{overflow-x:auto;max-height:480px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{position:sticky;top:0;background:#EEF2F8;color:var(--text2);font-weight:700;font-size:12px;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;z-index:10}
+tbody tr{border-bottom:1px solid #F1F5F9;transition:background .1s}
+tbody tr:hover{background:#F8FAFC}
+tbody td{padding:10px 14px;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.pg-bar{padding:14px 22px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2)}
+.pg-info{font-size:12px;color:var(--text3)}
+.pg-btns{display:flex;gap:5px;align-items:center}
+.pg-btn{padding:5px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:var(--text2);transition:all .2s;min-width:32px;text-align:center}
+.pg-btn:hover:not(:disabled){background:var(--blue-l);border-color:var(--blue);color:var(--blue)}
+.pg-btn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.pg-btn:disabled{opacity:.35;cursor:not-allowed}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading{text-align:center;padding:60px;color:var(--text3)}
+.no-data{text-align:center;padding:50px;color:var(--text3);font-size:14px}
+
+@media(max-width:1100px){.kpi-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+@media(max-width:768px){.main{padding:14px}.filter-bar{gap:10px}.kpi-row{grid-template-columns:1fr 1fr}.status-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-icon">🚗</div>
-  <div class="header-title">
-    <h1>차량 재고 현황</h1>
-    <p id="headerSub">데이터 로딩 중...</p>
-  </div>
-  <div class="header-badge" id="totalBadge">총 0건</div>
+  <div class="header-logo"><span>🚗</span><h1>차량 재고 현황</h1></div>
+  <div class="header-date" id="hDate">기준일: 2026년 06월 25일</div>
+  <div class="header-total" id="hTotal">전체 0건</div>
 </div>
 
 <div class="main">
-  <div class="filter-panel">
-    <div class="filter-panel-title">🔍 &nbsp;필터 조건</div>
-    <div class="filter-grid">
-      <div class="filter-group"><label>기준년월</label><select id="fYm"><option value="">전체</option></select></div>
-      <div class="filter-group"><label>신차구분</label><select id="fNc"><option value="">전체</option></select></div>
-      <div class="filter-group"><label>시리즈명</label><select id="fSr"><option value="">전체</option></select></div>
-      <div class="filter-group"><label>차종구분</label><select id="fCt"><option value="">전체</option></select></div>
-      <div class="filter-group"><label>유종</label><select id="fFl"><option value="">전체</option></select></div>
-      <div><label style="display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">&nbsp;</label>
-        <button class="btn-reset" onclick="resetFilters()">↺ &nbsp;초기화</button></div>
+  <!-- FILTER -->
+  <div class="filter-bar">
+    <div class="fg"><label>기준년월</label><select id="fYm"><option value="">전체</option></select></div>
+    <div class="fg"><label>신차구분</label><select id="fNc"><option value="">전체</option></select></div>
+    <div class="fg"><label>시리즈명</label><select id="fSr"><option value="">전체</option></select></div>
+    <div class="fg"><label>차종구분</label><select id="fCt"><option value="">전체</option></select></div>
+    <div class="fg"><label>유종</label><select id="fFl"><option value="">전체</option></select></div>
+    <button class="btn-reset" onclick="resetFilters()">↺ 초기화</button>
+  </div>
+
+  <!-- STATUS CARDS -->
+  <div class="sec-title">📊 자산상태별 현황</div>
+  <div class="status-grid" id="statusGrid"><div class="loading"><div class="spinner"></div>집계 중...</div></div>
+
+  <!-- KPI -->
+  <div class="sec-title">📈 주요 지표</div>
+  <div class="kpi-row" id="kpiRow"><div class="loading"><div class="spinner"></div></div></div>
+
+  <!-- TWO COL -->
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-head"><h3>🚙 시리즈별 재고</h3><span class="badge-sm" id="seriesBadge">TOP 10</span></div>
+      <div class="panel-body" id="seriesChart"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>🛢 유종 / 차종구분</h3><span class="badge-sm" id="fuelBadge">구성 현황</span></div>
+      <div class="panel-body" id="fuelChart"><div class="loading"><div class="spinner"></div></div></div>
     </div>
   </div>
 
-  <div class="summary-row" id="summaryRow">
-    <div class="loading"><div class="spinner"></div>재고 현황 집계 중...</div>
-  </div>
-
+  <!-- TABLE -->
   <div class="table-section">
-    <div class="table-header">
-      <h2>📋 차량 목록</h2>
-      <div class="result-count" id="resultCount">0건</div>
-    </div>
+    <div class="table-head"><h2>📋 차량 목록</h2><div class="result-cnt" id="resCnt">0건</div></div>
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>자산번호</th><th>자산상태</th><th>신차구분</th><th>시리즈명</th>
-            <th>모델명</th><th>차종구분</th><th>유종</th><th>차량번호</th>
-            <th>년형</th><th>주행거리(KM)</th><th>차량가격</th><th>차량위치</th>
-            <th>매입계약일</th><th>경과일</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <tr><td colspan="14" class="loading"><div class="spinner"></div>데이터 로딩 중...</td></tr>
-        </tbody>
+        <thead><tr>
+          <th>자산번호</th><th>자산상태</th><th>신차구분</th><th>시리즈명</th>
+          <th>모델명</th><th>차종구분</th><th>유종</th><th>차량번호</th>
+          <th>년형</th><th>주행거리(KM)</th><th>차량가격</th><th>렌탈방식</th>
+          <th>자산구분</th><th>차량위치</th><th>매입계약일</th><th>경과일</th>
+        </tr></thead>
+        <tbody id="tBody"><tr><td colspan="16"><div class="loading"><div class="spinner"></div>로딩 중...</div></td></tr></tbody>
       </table>
     </div>
-    <div class="pagination">
-      <div class="page-info" id="pageInfo">-</div>
-      <div class="page-btns" id="pageBtns"></div>
+    <div class="pg-bar">
+      <div class="pg-info" id="pgInfo">-</div>
+      <div class="pg-btns" id="pgBtns"></div>
     </div>
   </div>
 </div>
 
 <script>
-// 컬럼 단축키 매핑 (JSON 키 → 표시용)
-// id=자산번호, dt=매입계약일, st=자산상태, nc=신차구분, sr=시리즈명
-// ct=차종구분, fl=유종, pl=차량번호, md=모델명, pr=차량가격
-// yr=년형, km=주행거리, loc=차량위치, el=경과일, ym=기준년월
-
-let allData = [], filtered = [], currentPage = 1;
-const PAGE_SIZE = 50;
-let activeStatus = null;
+// key mapping (short → display)
+// id=자산번호 dt=매입계약일 st=자산상태 nc=신차구분 sr=시리즈명 ct=차종구분
+// fl=유종 pl=차량번호 md=모델명 pr=차량가격 yr=년형 km=주행거리
+// loc=차량위치 el=경과일 ym=기준년월 rt=렌탈방식 at=자산구분 bt=매입구분
 
 const STATUS_CFG = {
-  '출고(실행)':   { color: '#2563EB', light: '#DBEAFE' },
-  '매각':        { color: '#BE185D', light: '#FCE7F3' },
-  '상품화진행중':  { color: '#D97706', light: '#FEF3C7' },
-  '상품':        { color: '#059669', light: '#D1FAE5' },
-  '구매완료':     { color: '#7C3AED', light: '#EDE9FE' },
-  '매각진행중':   { color: '#DB2777', light: '#FCE7F3' },
-  '탁송(출고)':  { color: '#DC2626', light: '#FEE2E2' },
-  '영업 외 출고': { color: '#16A34A', light: '#DCFCE7' },
-  '상품화완료':   { color: '#0891B2', light: '#CFFAFE' },
-  '구매준비중':   { color: '#9333EA', light: '#F3E8FF' },
-  '상품준비':     { color: '#65A30D', light: '#ECFCCB' },
+  '출고(실행)':   {c:'#2563EB',cl:'#DBEAFE'},
+  '매각':        {c:'#BE185D',cl:'#FCE7F3'},
+  '상품화진행중':  {c:'#D97706',cl:'#FEF3C7'},
+  '상품':        {c:'#059669',cl:'#D1FAE5'},
+  '구매완료':     {c:'#7C3AED',cl:'#EDE9FE'},
+  '매각진행중':   {c:'#DB2777',cl:'#FCE7F3'},
+  '탁송(출고)':  {c:'#DC2626',cl:'#FEE2E2'},
+  '영업 외 출고': {c:'#16A34A',cl:'#DCFCE7'},
+  '상품화완료':   {c:'#0891B2',cl:'#CFFAFE'},
+  '구매준비중':   {c:'#9333EA',cl:'#F3E8FF'},
+  '상품준비':     {c:'#65A30D',cl:'#ECFCCB'},
 };
+const BAR_COLORS = ['#2563EB','#7C3AED','#059669','#D97706','#DB2777','#0891B2','#DC2626','#65A30D','#BE185D','#9333EA'];
 
-async function loadData() {
-  try {
-    const resp = await fetch('inventory_data.json');
-    allData = await resp.json();
+let allData=[],filtered=[],curPage=1,activeStatus=null;
+const PS=50;
+
+async function loadData(){
+  try{
+    const r=await fetch('inventory_data.json');
+    allData=await r.json();
     initFilters();
     applyFilters();
-    document.getElementById('headerSub').textContent = `기준일: 2026년 06월 25일 · 총 ${allData.length.toLocaleString()}건`;
-    document.getElementById('totalBadge').textContent = `총 ${allData.length.toLocaleString()}건`;
-  } catch(e) {
-    document.getElementById('tableBody').innerHTML = `<tr><td colspan="14" style="text-align:center;padding:60px;color:#DC2626;">⚠️ inventory_data.json 파일을 같은 폴더에 넣어주세요.</td></tr>`;
-    document.getElementById('summaryRow').innerHTML = '';
+    document.getElementById('hTotal').textContent=`전체 ${allData.length.toLocaleString()}건`;
+  }catch(e){
+    document.getElementById('tBody').innerHTML=`<tr><td colspan="16"><div class="no-data">⚠️ inventory_data.json 파일을 같은 폴더에 넣어주세요.</div></td></tr>`;
   }
 }
 
-function getUniq(key) {
-  return [...new Set(allData.map(r => r[key]).filter(v => v != null && v !== ''))].sort((a,b)=>String(a).localeCompare(String(b),'ko'));
-}
-function pop(id, vals) {
-  const s = document.getElementById(id);
-  vals.forEach(v => { const o = document.createElement('option'); o.value = o.textContent = v; s.appendChild(o); });
-}
-function initFilters() {
-  const yms = [...new Set(allData.map(r=>r.ym).filter(Boolean))].sort().reverse();
-  pop('fYm', yms); pop('fNc', getUniq('nc')); pop('fSr', getUniq('sr'));
-  pop('fCt', getUniq('ct')); pop('fFl', getUniq('fl'));
-  ['fYm','fNc','fSr','fCt','fFl'].forEach(id => {
-    document.getElementById(id).addEventListener('change', () => { activeStatus = null; applyFilters(); });
+function uniq(key){return [...new Set(allData.map(r=>r[key]).filter(v=>v!=null&&v!==''))].sort((a,b)=>String(a).localeCompare(String(b),'ko'))}
+function pop(id,vals){const s=document.getElementById(id);vals.forEach(v=>{const o=document.createElement('option');o.value=o.textContent=v;s.appendChild(o)})}
+function initFilters(){
+  const yms=[...new Set(allData.map(r=>r.ym).filter(Boolean))].sort().reverse();
+  pop('fYm',yms);pop('fNc',uniq('nc'));pop('fSr',uniq('sr'));pop('fCt',uniq('ct'));pop('fFl',uniq('fl'));
+  ['fYm','fNc','fSr','fCt','fFl'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.addEventListener('change',()=>{
+      el.classList.toggle('has-value',!!el.value);
+      activeStatus=null;applyFilters();
+    });
   });
 }
-function getF() {
-  return { ym: fYm.value, nc: fNc.value, sr: fSr.value, ct: fCt.value, fl: fFl.value };
-}
-function applyFilters() {
-  const f = getF();
-  filtered = allData.filter(r => {
-    if (f.ym && r.ym !== f.ym) return false;
-    if (f.nc && r.nc !== f.nc) return false;
-    if (f.sr && r.sr !== f.sr) return false;
-    if (f.ct && r.ct !== f.ct) return false;
-    if (f.fl && r.fl !== f.fl) return false;
-    if (activeStatus && r.st !== activeStatus) return false;
+function getF(){return{ym:fYm.value,nc:fNc.value,sr:fSr.value,ct:fCt.value,fl:fFl.value}}
+function baseFiltered(){
+  const f=getF();
+  return allData.filter(r=>{
+    if(f.ym&&r.ym!==f.ym)return false;
+    if(f.nc&&r.nc!==f.nc)return false;
+    if(f.sr&&r.sr!==f.sr)return false;
+    if(f.ct&&r.ct!==f.ct)return false;
+    if(f.fl&&r.fl!==f.fl)return false;
     return true;
   });
-  currentPage = 1;
-  renderSummary(); renderTable();
 }
-function resetFilters() {
-  ['fYm','fNc','fSr','fCt','fFl'].forEach(id => document.getElementById(id).value = '');
-  activeStatus = null; applyFilters();
+function applyFilters(){
+  const base=baseFiltered();
+  filtered=activeStatus?base.filter(r=>r.st===activeStatus):base;
+  curPage=1;
+  renderStatus(base);renderKPI(base);renderCharts(base);renderTable();
 }
-function renderSummary() {
-  const f = getF();
-  const base = allData.filter(r => {
-    if (f.ym && r.ym !== f.ym) return false;
-    if (f.nc && r.nc !== f.nc) return false;
-    if (f.sr && r.sr !== f.sr) return false;
-    if (f.ct && r.ct !== f.ct) return false;
-    if (f.fl && r.fl !== f.fl) return false;
-    return true;
+function resetFilters(){
+  ['fYm','fNc','fSr','fCt','fFl'].forEach(id=>{const el=document.getElementById(id);el.value='';el.classList.remove('has-value')});
+  activeStatus=null;applyFilters();
+}
+
+function renderStatus(base){
+  const counts={};
+  base.forEach(r=>{const s=r.st||'미분류';counts[s]=(counts[s]||0)+1});
+  const total=base.length;
+  const ORDER=['출고(실행)','매각','상품화진행중','상품','구매완료','매각진행중','탁송(출고)','영업 외 출고','상품화완료','구매준비중','상품준비'];
+  const sorted=ORDER.filter(k=>counts[k]).concat(Object.keys(counts).filter(k=>!ORDER.includes(k)));
+  const grid=document.getElementById('statusGrid');
+  grid.innerHTML='';
+  // 전체 카드
+  const all=document.createElement('div');
+  all.className='s-card'+(activeStatus===null?' active':'');
+  all.style.cssText='--c:#0F172A;--cl:#F1F5F9';
+  all.innerHTML=`<div class="lbl">전체</div><div class="num" style="color:#0F172A">${total.toLocaleString()}</div><div class="pct">100%</div>`;
+  all.onclick=()=>{activeStatus=null;applyFilters()};
+  grid.appendChild(all);
+  sorted.forEach(st=>{
+    const cfg=STATUS_CFG[st]||{c:'#64748B',cl:'#F1F5F9'};
+    const cnt=counts[st]||0;
+    const pct=total>0?((cnt/total)*100).toFixed(1):'0.0';
+    const card=document.createElement('div');
+    card.className='s-card'+(activeStatus===st?' active':'');
+    card.style.cssText=`--c:${cfg.c};--cl:${cfg.cl}`;
+    card.innerHTML=`<div class="lbl">${st}</div><div class="num">${cnt.toLocaleString()}</div><div class="pct">${pct}%</div>`;
+    card.onclick=()=>{activeStatus=activeStatus===st?null:st;applyFilters()};
+    grid.appendChild(card);
   });
-  const counts = {};
-  base.forEach(r => { const s = r.st || '미분류'; counts[s] = (counts[s]||0)+1; });
-  const total = base.length;
-  const ORDER = ['출고(실행)','매각','상품화진행중','상품','구매완료','매각진행중','탁송(출고)','영업 외 출고','상품화완료','구매준비중','상품준비'];
-  const sorted = ORDER.filter(k=>counts[k]).concat(Object.keys(counts).filter(k=>!ORDER.includes(k)));
-  const row = document.getElementById('summaryRow');
-  row.innerHTML = '';
-  const mkCard = (label, cnt, color, isActive, onClick) => {
-    const pct = total > 0 ? ((cnt/total)*100).toFixed(1) : '0.0';
-    const d = document.createElement('div');
-    d.className = 'summary-card' + (isActive ? ' active' : '');
-    d.style.setProperty('--card-accent', color);
-    d.innerHTML = `<div class="card-label">${label}</div><div class="card-count" style="color:${color}">${cnt.toLocaleString()}</div><div class="card-pct">${pct}%</div>`;
-    d.onclick = onClick; row.appendChild(d);
-  };
-  mkCard('전체', total, '#1A2233', !activeStatus, () => { activeStatus = null; applyFilters(); });
-  sorted.forEach(st => {
-    const cfg = STATUS_CFG[st] || { color: '#64748B' };
-    mkCard(st, counts[st]||0, cfg.color, activeStatus===st, () => { activeStatus = activeStatus===st ? null : st; applyFilters(); });
-  });
 }
-function renderTable() {
-  const tbody = document.getElementById('tableBody');
-  const total = filtered.length;
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-  const start = (currentPage-1)*PAGE_SIZE;
-  const page = filtered.slice(start, start+PAGE_SIZE);
-  document.getElementById('resultCount').textContent = `${total.toLocaleString()}건`;
-  if (!page.length) {
-    tbody.innerHTML = `<tr><td colspan="14"><div class="no-data">🔍 조건에 맞는 차량이 없습니다.</div></td></tr>`;
-    pageInfo.textContent = '검색 결과 없음'; pageBtns.innerHTML = ''; return;
+
+function renderKPI(base){
+  const total=base.length;
+  const today='2026-06-25';
+  const todayItems=base.filter(r=>r.dt===today);
+  const longRent=base.filter(r=>r.at==='장기'||r.rt==='장기렌트').length;
+  const lease=base.filter(r=>r.at==='리스'||r.rt==='리스렌트').length;
+  const shortRent=base.filter(r=>r.at==='단기'||r.rt==='단기렌트').length;
+  const todaySeries=[...new Set(todayItems.map(r=>r.sr).filter(Boolean))];
+
+  const kpis=[
+    {icon:'📅',label:'오늘 매입 차량',val:todayItems.length+'대',
+     sub:todayItems.length>0?todaySeries.slice(0,3).join(', '):'매입 없음',ka:'#2563EB'},
+    {icon:'📋',label:'장기렌트',val:longRent.toLocaleString()+'대',
+     sub:`전체의 ${total>0?((longRent/total)*100).toFixed(1):0}%`,ka:'#059669'},
+    {icon:'🔑',label:'리스',val:lease.toLocaleString()+'대',
+     sub:`전체의 ${total>0?((lease/total)*100).toFixed(1):0}%`,ka:'#7C3AED'},
+    {icon:'⏱',label:'단기렌트',val:shortRent.toLocaleString()+'대',
+     sub:`전체의 ${total>0?((shortRent/total)*100).toFixed(1):0}%`,ka:'#D97706'},
+  ];
+  document.getElementById('kpiRow').innerHTML=kpis.map(k=>`
+    <div class="kpi">
+      <div class="kpi-icon">${k.icon}</div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+      <div class="kpi-accent" style="--ka:${k.ka}"></div>
+    </div>`).join('');
+}
+
+function renderCharts(base){
+  // Series chart
+  const srCnt={};
+  base.forEach(r=>{if(r.sr){srCnt[r.sr]=(srCnt[r.sr]||0)+1}});
+  const srSorted=Object.entries(srCnt).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const maxSr=srSorted[0]?srSorted[0][1]:1;
+  document.getElementById('seriesChart').innerHTML=srSorted.map(([name,cnt],i)=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${name}">${name}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${(cnt/maxSr*100).toFixed(1)}%;background:${BAR_COLORS[i%BAR_COLORS.length]}">
+          <span>${cnt.toLocaleString()}</span>
+        </div>
+      </div>
+      <div class="bar-count">${cnt.toLocaleString()}</div>
+    </div>`).join('');
+  document.getElementById('seriesBadge').textContent=`TOP ${srSorted.length}`;
+
+  // Fuel + 차종구분 chart
+  const flCnt={};
+  base.forEach(r=>{if(r.fl){flCnt[r.fl]=(flCnt[r.fl]||0)+1}});
+  const flSorted=Object.entries(flCnt).sort((a,b)=>b[1]-a[1]);
+  const maxFl=flSorted[0]?flSorted[0][1]:1;
+  const flColors=['#2563EB','#059669','#D97706','#7C3AED','#0891B2','#DC2626'];
+
+  const ctCnt={};
+  base.forEach(r=>{if(r.ct){ctCnt[r.ct]=(ctCnt[r.ct]||0)+1}});
+  const ctSorted=Object.entries(ctCnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxCt=ctSorted[0]?ctSorted[0][1]:1;
+
+  document.getElementById('fuelChart').innerHTML=`
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">유종</div>
+    ${flSorted.map(([name,cnt],i)=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${name}">${name}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${(cnt/maxFl*100).toFixed(1)}%;background:${flColors[i%flColors.length]}">
+          <span>${cnt.toLocaleString()}</span>
+        </div>
+      </div>
+      <div class="bar-count">${cnt.toLocaleString()}</div>
+    </div>`).join('')}
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin:16px 0 10px;text-transform:uppercase;letter-spacing:.4px">차종구분 TOP 5</div>
+    ${ctSorted.map(([name,cnt],i)=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${name}">${name}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${(cnt/maxCt*100).toFixed(1)}%;background:${BAR_COLORS[(i+3)%BAR_COLORS.length]}">
+          <span>${cnt.toLocaleString()}</span>
+        </div>
+      </div>
+      <div class="bar-count">${cnt.toLocaleString()}</div>
+    </div>`).join('')}`;
+}
+
+function renderTable(){
+  const tbody=document.getElementById('tBody');
+  const total=filtered.length;
+  const totalPages=Math.ceil(total/PS);
+  const start=(curPage-1)*PS;
+  const page=filtered.slice(start,start+PS);
+  document.getElementById('resCnt').textContent=`${total.toLocaleString()}건`;
+  if(!page.length){
+    tbody.innerHTML=`<tr><td colspan="16"><div class="no-data">🔍 조건에 맞는 차량이 없습니다.</div></td></tr>`;
+    pgInfo.textContent='검색 결과 없음';pgBtns.innerHTML='';return;
   }
-  tbody.innerHTML = page.map(r => {
-    const cfg = STATUS_CFG[r.st] || { color:'#64748B', light:'#F1F5F9' };
-    const price = r.pr ? Math.round(r.pr/10000).toLocaleString()+'만원' : '-';
-    const km = r.km ? Number(r.km).toLocaleString()+' km' : '-';
-    const md = (r.md||'-').length > 22 ? r.md.substring(0,22)+'…' : (r.md||'-');
-    return `<tr>
-      <td style="font-family:monospace;font-size:12px;color:#64748B">${r.id||'-'}</td>
-      <td><span class="badge" style="background:${cfg.light};color:${cfg.color}">${r.st||'-'}</span></td>
+  tbody.innerHTML=page.map(r=>{
+    const cfg=STATUS_CFG[r.st]||{c:'#64748B',cl:'#F1F5F9'};
+    const price=r.pr?Math.round(r.pr/10000).toLocaleString()+'만':'-';
+    const km=r.km?Number(r.km).toLocaleString()+' km':'-';
+    const md=(r.md||'-').length>20?r.md.substring(0,20)+'…':(r.md||'-');
+    return`<tr>
+      <td style="font-family:monospace;font-size:11px;color:#94A3B8">${r.id||'-'}</td>
+      <td><span class="badge" style="background:${cfg.cl};color:${cfg.c}">${r.st||'-'}</span></td>
       <td>${r.nc||'-'}</td>
       <td><strong>${r.sr||'-'}</strong></td>
-      <td style="color:var(--text-secondary)">${md}</td>
+      <td style="color:var(--text2)">${md}</td>
       <td>${r.ct||'-'}</td>
       <td>${r.fl||'-'}</td>
-      <td style="font-family:monospace;font-size:13px">${r.pl||'-'}</td>
+      <td style="font-family:monospace;font-size:12px">${r.pl||'-'}</td>
       <td>${r.yr||'-'}</td>
       <td style="text-align:right">${km}</td>
-      <td style="text-align:right;font-weight:600;color:var(--accent)">${price}</td>
+      <td style="text-align:right;font-weight:700;color:var(--blue)">${price}</td>
+      <td>${r.rt||'-'}</td>
+      <td>${r.at||'-'}</td>
       <td>${r.loc||'-'}</td>
-      <td style="font-size:12.5px;color:var(--text-muted)">${r.dt||'-'}</td>
-      <td style="text-align:right">${r.el!=null ? r.el+'일' : '-'}</td>
+      <td style="font-size:11px;color:var(--text3)">${r.dt||'-'}</td>
+      <td style="text-align:right">${r.el!=null?r.el+'일':'-'}</td>
     </tr>`;
   }).join('');
 
-  pageInfo.textContent = `${(start+1).toLocaleString()} – ${Math.min(start+PAGE_SIZE,total).toLocaleString()} / ${total.toLocaleString()}건`;
-  pageBtns.innerHTML = '';
-  const mkBtn = (label, pg, disabled=false) => {
-    const b = document.createElement('button');
-    b.className = 'page-btn' + (pg===currentPage ? ' active' : '');
-    b.textContent = label; b.disabled = disabled;
-    b.onclick = () => { currentPage = pg; renderTable(); }; return b;
+  pgInfo.textContent=`${(start+1).toLocaleString()}–${Math.min(start+PS,total).toLocaleString()} / ${total.toLocaleString()}건`;
+  pgBtns.innerHTML='';
+  const mkB=(lbl,pg,dis=false)=>{
+    const b=document.createElement('button');
+    b.className='pg-btn'+(pg===curPage?' on':'');
+    b.textContent=lbl;b.disabled=dis;
+    b.onclick=()=>{curPage=pg;renderTable();window.scrollTo(0,document.querySelector('.table-section').offsetTop-80)};
+    return b;
   };
-  pageBtns.appendChild(mkBtn('‹', currentPage-1, currentPage<=1));
-  const range = [];
-  if (totalPages<=7) { for(let i=1;i<=totalPages;i++) range.push(i); }
-  else {
+  pgBtns.appendChild(mkB('‹',curPage-1,curPage<=1));
+  const range=[];
+  if(totalPages<=7){for(let i=1;i<=totalPages;i++)range.push(i)}
+  else{
     range.push(1);
-    if (currentPage>3) range.push('…');
-    for(let i=Math.max(2,currentPage-1);i<=Math.min(totalPages-1,currentPage+1);i++) range.push(i);
-    if (currentPage<totalPages-2) range.push('…');
+    if(curPage>3)range.push('…');
+    for(let i=Math.max(2,curPage-1);i<=Math.min(totalPages-1,curPage+1);i++)range.push(i);
+    if(curPage<totalPages-2)range.push('…');
     range.push(totalPages);
   }
-  range.forEach(p => {
-    if (p==='…') { const s=document.createElement('span'); s.textContent='…'; s.style.cssText='padding:6px 4px;color:var(--text-muted)'; pageBtns.appendChild(s); }
-    else pageBtns.appendChild(mkBtn(p,p));
+  range.forEach(p=>{
+    if(p==='…'){const s=document.createElement('span');s.textContent='…';s.style.cssText='padding:5px 3px;color:var(--text3)';pgBtns.appendChild(s)}
+    else pgBtns.appendChild(mkB(p,p));
   });
-  pageBtns.appendChild(mkBtn('›', currentPage+1, currentPage>=totalPages));
+  pgBtns.appendChild(mkB('›',curPage+1,curPage>=totalPages));
 }
 
 loadData();
