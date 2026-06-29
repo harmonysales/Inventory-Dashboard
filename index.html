@@ -20,7 +20,6 @@
 }
 body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.6;min-height:100vh}
 
-/* HEADER */
 .hdr{background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 100%);padding:0 28px;display:flex;align-items:center;gap:14px;height:58px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .hdr-logo{display:flex;align-items:center;gap:9px;color:#fff;flex-shrink:0}
 .hdr-logo span{font-size:20px}
@@ -30,10 +29,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);
 .hdr-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .hdr-pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap}
 
-/* LAYOUT */
 .main{padding:22px 28px;max-width:1640px;margin:0 auto}
 
-/* FILTER */
 .filter-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--sh);display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
 .fg{display:flex;flex-direction:column;gap:4px}
 .fg label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px}
@@ -43,10 +40,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);
 .btn-reset{padding:8px 16px;background:#fff;color:var(--t2);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;align-self:flex-end;display:flex;align-items:center;gap:5px}
 .btn-reset:hover{border-color:var(--blue);color:var(--blue)}
 
-/* TOP ROW: status strip + 오늘구매 + 재고현황 */
 .top-row{display:grid;grid-template-columns:1fr auto auto;gap:14px;margin-bottom:20px;align-items:start}
-
-/* STATUS STRIP */
 .status-strip{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;box-shadow:var(--sh)}
 .strip-title{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px}
 .strip-items{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -59,45 +53,55 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);
 .strip-divider{width:1px;background:var(--border);margin:0 4px;align-self:stretch;min-height:28px}
 .strip-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;align-self:center;margin-right:2px;flex-shrink:0}
 
-/* 오늘 구매 현황 박스 */
 .today-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;box-shadow:var(--sh);min-width:200px}
 .box-title{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px}
 .today-total{display:flex;align-items:baseline;gap:6px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .today-total .tt-num{font-size:30px;font-weight:900;color:var(--blue);letter-spacing:-1.5px;line-height:1}
 .today-total .tt-unit{font-size:13px;font-weight:600;color:var(--t2)}
-.today-total .tt-label{font-size:12px;color:var(--t3);margin-left:2px}
 .today-rows{display:flex;flex-direction:column;gap:6px}
 .today-row{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:7px;background:var(--s2)}
 .today-row .tr-label{font-size:12px;font-weight:600;color:var(--t2)}
 .today-row .tr-val{font-size:14px;font-weight:800;color:var(--t1)}
 .today-none{font-size:12px;color:var(--t3);text-align:center;padding:6px 0}
 
-/* 재고 현황 박스 */
 .stock-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;box-shadow:var(--sh);min-width:200px}
 .stock-rows{display:flex;flex-direction:column;gap:6px}
 .stock-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px}
 .stock-row .sr-label{font-size:12px;font-weight:600}
 .stock-row .sr-val{font-size:16px;font-weight:900}
-.stock-row.new{background:#EFF6FF}
-.stock-row.new .sr-label{color:#1D4ED8}
-.stock-row.new .sr-val{color:#2563EB}
-.stock-row.re{background:#F5F3FF}
-.stock-row.re .sr-label{color:#6D28D9}
-.stock-row.re .sr-val{color:#7C3AED}
-.stock-row.total{background:#F0FDF4}
-.stock-row.total .sr-label{color:#15803D}
-.stock-row.total .sr-val{color:#16A34A}
+.stock-row.total{background:#F0FDF4}.stock-row.total .sr-label{color:#15803D}.stock-row.total .sr-val{color:#16A34A}
+.stock-row.new{background:#EFF6FF}.stock-row.new .sr-label{color:#1D4ED8}.stock-row.new .sr-val{color:#2563EB}
+.stock-row.re{background:#F5F3FF}.stock-row.re .sr-label{color:#6D28D9}.stock-row.re .sr-val{color:#7C3AED}
 
-/* AGING SECTION */
+/* AGING SUMMARY CARDS */
+.stock-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.ss-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.ss-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cc,var(--blue))}
+.ss-card .sc-label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;padding-left:4px}
+.ss-card .sc-num{font-size:28px;font-weight:900;color:var(--cc,var(--blue));letter-spacing:-1px;line-height:1;padding-left:4px}
+.ss-card .sc-sub{font-size:12px;color:var(--t3);margin-top:4px;padding-left:4px}
+
+/* AGING SECTION — 신차/재렌트 분리 */
 .aging-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh);overflow:hidden;margin-bottom:20px}
-.aging-head{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--s2);display:flex;align-items:center;justify-content:space-between}
+.aging-head{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--s2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .aging-head h3{font-size:14px;font-weight:700}
+.aging-controls{display:flex;align-items:center;gap:10px}
 .aging-tabs{display:flex;gap:0}
-.aging-tab{padding:6px 16px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--t2);transition:all .15s}
+.aging-tab{padding:6px 14px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--t2);transition:all .15s}
 .aging-tab:first-child{border-radius:8px 0 0 8px}
 .aging-tab:last-child{border-radius:0 8px 8px 0;border-left:none}
 .aging-tab:not(:first-child):not(:last-child){border-left:none}
 .aging-tab.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+/* 신차/재렌트 구분 탭 */
+.nc-tabs{display:flex;gap:0}
+.nc-tab{padding:5px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--t2);transition:all .15s}
+.nc-tab:first-child{border-radius:8px 0 0 8px}
+.nc-tab:last-child{border-radius:0 8px 8px 0;border-left:none}
+.nc-tab.on-blue{background:#2563EB;color:#fff;border-color:#2563EB}
+.nc-tab.on-purple{background:#7C3AED;color:#fff;border-color:#7C3AED}
+
+.aging-note{font-size:11px;color:var(--t3);background:#F8FAFC;border:1px solid var(--border);border-radius:6px;padding:3px 10px}
 .aging-body{padding:20px}
 .aging-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .aging-col{border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
@@ -115,14 +119,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);
 .aging-col.c60 .ag-title{color:#C2410C}.aging-col.c60 .ag-cnt{color:#EA580C}.aging-col.c60 .ar-cnt{color:#EA580C}
 .aging-col.clong .aging-col-head{background:#FEF2F2;border-bottom:1px solid #FECACA}
 .aging-col.clong .ag-title{color:#991B1B}.aging-col.clong .ag-cnt{color:#DC2626}.aging-col.clong .ar-cnt{color:#DC2626}
-
-/* STOCK SUMMARY CARDS */
-.stock-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.ss-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--sh);position:relative;overflow:hidden}
-.ss-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cc,var(--blue))}
-.ss-card .sc-label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;padding-left:4px}
-.ss-card .sc-num{font-size:28px;font-weight:900;color:var(--cc,var(--blue));letter-spacing:-1px;line-height:1;padding-left:4px}
-.ss-card .sc-sub{font-size:12px;color:var(--t3);margin-top:4px;padding-left:4px}
 
 /* CHARTS */
 .content-row{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:20px}
@@ -176,7 +172,7 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading{text-align:center;padding:50px;color:var(--t3)}
 .no-data{text-align:center;padding:40px;color:var(--t3)}
-@media(max-width:1300px){.top-row{grid-template-columns:1fr 1fr};.top-row .status-strip{grid-column:1/-1}}
+@media(max-width:1300px){.top-row{grid-template-columns:1fr 1fr}.top-row .status-strip{grid-column:1/-1}}
 @media(max-width:1200px){.content-row{grid-template-columns:1fr}.aging-grid{grid-template-columns:1fr}.stock-summary{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.main{padding:12px}.top-row{grid-template-columns:1fr}.stock-summary{grid-template-columns:1fr 1fr}}
 </style>
@@ -186,7 +182,7 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
 <div class="hdr">
   <div class="hdr-logo"><span>🚗</span><h1>차량 재고 현황</h1></div>
   <div class="hdr-sep"></div>
-  <div class="hdr-date" id="hdrDate">2026년 06월 26일 기준</div>
+  <div class="hdr-date">2026년 06월 29일 기준</div>
   <div class="hdr-right">
     <div class="hdr-pill" id="hStockTotal">판매재고 0건</div>
     <div class="hdr-pill" id="hOther">기타 0건</div>
@@ -194,7 +190,6 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
 </div>
 
 <div class="main">
-  <!-- FILTER -->
   <div class="filter-bar">
     <div class="fg"><label>기준년월</label><select id="fYm"><option value="">전체</option></select></div>
     <div class="fg"><label>신차구분</label><select id="fNc"><option value="">전체</option></select></div>
@@ -205,14 +200,11 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
     <button class="btn-reset" onclick="resetFilters()">↺ 초기화</button>
   </div>
 
-  <!-- TOP ROW: 상태 스트립 + 오늘 구매 + 재고 현황 -->
   <div class="top-row">
     <div class="status-strip">
       <div class="strip-title">자산 상태별 현황 — 클릭하여 필터</div>
       <div class="strip-items" id="statusStrip"><div class="loading"><div class="spinner"></div></div></div>
     </div>
-
-    <!-- 오늘 구매 현황 -->
     <div class="today-box">
       <div class="box-title">📅 오늘 구매 현황</div>
       <div class="today-total">
@@ -220,43 +212,37 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
         <div class="tt-unit">대</div>
         <div class="tt-label">구매</div>
       </div>
-      <div class="today-rows" id="tkRows">
-        <div class="today-none">신규 구매 없음</div>
-      </div>
+      <div class="today-rows" id="tkRows"><div class="today-none">신규 구매 없음</div></div>
     </div>
-
-    <!-- 재고 현황 -->
     <div class="stock-box">
       <div class="box-title">📦 재고 현황</div>
       <div class="stock-rows">
-        <div class="stock-row total">
-          <span class="sr-label">전체 판매재고</span>
-          <span class="sr-val" id="sbTotal">0대</span>
-        </div>
-        <div class="stock-row new">
-          <span class="sr-label">신차 재고</span>
-          <span class="sr-val" id="sbNew">0대</span>
-        </div>
-        <div class="stock-row re">
-          <span class="sr-label">재렌트 재고</span>
-          <span class="sr-val" id="sbRe">0대</span>
-        </div>
+        <div class="stock-row total"><span class="sr-label">전체 판매재고</span><span class="sr-val" id="sbTotal">0대</span></div>
+        <div class="stock-row new"><span class="sr-label">신차 재고</span><span class="sr-val" id="sbNew">0대</span></div>
+        <div class="stock-row re"><span class="sr-label">재렌트 재고</span><span class="sr-val" id="sbRe">0대</span></div>
       </div>
     </div>
   </div>
 
-  <!-- AGING SUMMARY CARDS -->
   <div class="stock-summary" id="stockSummary"></div>
 
   <!-- AGING SECTION -->
   <div class="aging-section">
     <div class="aging-head">
-      <h3>⏳ 상품등록 경과일별 재고 현황</h3>
-      <div class="aging-tabs">
-        <button class="aging-tab on" onclick="setAgingView('sr',this)">시리즈별</button>
-        <button class="aging-tab" onclick="setAgingView('yr',this)">년형별</button>
-        <button class="aging-tab" onclick="setAgingView('ct',this)">차종별</button>
-        <button class="aging-tab" onclick="setAgingView('fl',this)">유종별</button>
+      <h3>⏳ 경과일별 재고 현황</h3>
+      <div class="aging-controls">
+        <!-- 신차/재렌트 전환 -->
+        <div class="nc-tabs">
+          <button class="nc-tab on-blue" id="ncTabNew" onclick="setNcView('신차',this)">🔵 신차 <span style="font-size:11px;opacity:.8">(매입계약일 기준)</span></button>
+          <button class="nc-tab" id="ncTabRe" onclick="setNcView('재렌트',this)">🟣 재렌트 <span style="font-size:11px;opacity:.8">(상품등록일 기준)</span></button>
+        </div>
+        <!-- 분류 기준 -->
+        <div class="aging-tabs">
+          <button class="aging-tab on" onclick="setAgingView('sr',this)">시리즈별</button>
+          <button class="aging-tab" onclick="setAgingView('yr',this)">년형별</button>
+          <button class="aging-tab" onclick="setAgingView('ct',this)">차종별</button>
+          <button class="aging-tab" onclick="setAgingView('fl',this)">유종별</button>
+        </div>
       </div>
     </div>
     <div class="aging-body">
@@ -264,7 +250,6 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
     </div>
   </div>
 
-  <!-- MAIN CHARTS -->
   <div class="content-row">
     <div class="panel">
       <div class="panel-head">
@@ -289,7 +274,6 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
     </div>
   </div>
 
-  <!-- TABLE -->
   <div class="table-section">
     <div class="table-head">
       <h2>📋 판매 재고 차량 목록</h2>
@@ -301,9 +285,9 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
           <th>자산번호</th><th>자산상태</th><th>시리즈명</th><th>모델명</th>
           <th>차종구분</th><th>유종</th><th>신차구분</th><th>차량번호</th>
           <th>년형</th><th>주행거리(KM)</th><th>차량가격</th><th>색상</th>
-          <th>차량위치</th><th>매입계약일</th><th>경과일</th><th>상품등록경과</th>
+          <th>차량위치</th><th>매입계약일</th><th>경과일(기준)</th>
         </tr></thead>
-        <tbody id="tBody"><tr><td colspan="16"><div class="loading"><div class="spinner"></div></div></td></tr></tbody>
+        <tbody id="tBody"></tbody>
       </table>
     </div>
     <div class="pg-bar">
@@ -315,34 +299,40 @@ tbody td{padding:9px 13px;white-space:nowrap;font-size:13px}
 
 <script>
 const STOCK_ST=new Set(['상품화진행중','상품화완료','상품준비','구매준비중','상품','구매완료']);
-const TODAY='2026-06-26';
-
+const TODAY='2026-06-29';
 const STATUS_CFG={
-  '상품화진행중':{c:'#D97706',cl:'#FEF3C7'},
-  '상품화완료':{c:'#0891B2',cl:'#CFFAFE'},
-  '상품준비':{c:'#65A30D',cl:'#ECFCCB'},
-  '구매준비중':{c:'#9333EA',cl:'#F3E8FF'},
-  '상품':{c:'#059669',cl:'#D1FAE5'},
-  '구매완료':{c:'#2563EB',cl:'#DBEAFE'},
-  '출고(실행)':{c:'#475569',cl:'#F1F5F9'},
-  '매각':{c:'#BE185D',cl:'#FCE7F3'},
-  '매각진행중':{c:'#DB2777',cl:'#FCE7F3'},
-  '탁송(출고)':{c:'#DC2626',cl:'#FEE2E2'},
+  '상품화진행중':{c:'#D97706',cl:'#FEF3C7'},'상품화완료':{c:'#0891B2',cl:'#CFFAFE'},
+  '상품준비':{c:'#65A30D',cl:'#ECFCCB'},'구매준비중':{c:'#9333EA',cl:'#F3E8FF'},
+  '상품':{c:'#059669',cl:'#D1FAE5'},'구매완료':{c:'#2563EB',cl:'#DBEAFE'},
+  '출고(실행)':{c:'#475569',cl:'#F1F5F9'},'매각':{c:'#BE185D',cl:'#FCE7F3'},
+  '매각진행중':{c:'#DB2777',cl:'#FCE7F3'},'탁송(출고)':{c:'#DC2626',cl:'#FEE2E2'},
   '영업 외 출고':{c:'#16A34A',cl:'#DCFCE7'},
 };
 const COLORS=['#2563EB','#7C3AED','#059669','#D97706','#DB2777','#0891B2','#DC2626','#65A30D','#9333EA','#BE185D','#EA580C','#CA8A04'];
 
-let allData=[],curPage=1,activeStatus=null,agingKey='sr';
+let allData=[],curPage=1,activeStatus=null,agingKey='sr',ncView='신차';
 const PS=50;
+
+// 신차 → bel(매입경과일), 재렌트 → spd(상품등록경과일)
+function getElapsed(r){
+  return r.nc==='신차' ? (r.bel ?? null) : (r.spd ?? null);
+}
+function getAgingGroup(r){
+  const d=getElapsed(r);
+  if(d==null||isNaN(Number(d)))return null;
+  const n=Number(d);
+  if(n<=30)return 30;
+  if(n<=60)return 60;
+  return 999;
+}
 
 async function loadData(){
   try{
-    const r=await fetch('https://raw.githubusercontent.com/harmonysales/Inventory-Dashboard/main/inventory_data.json');
-    allData=await r.json();
-    initFilters();
-    render();
+    const res=await fetch('https://raw.githubusercontent.com/harmonysales/Inventory-Dashboard/main/inventory_data.json');
+    allData=await res.json();
+    initFilters();render();
   }catch(e){
-    document.getElementById('tBody').innerHTML=`<tr><td colspan="16"><div class="no-data">⚠️ 데이터를 불러올 수 없습니다.</div></td></tr>`;
+    document.getElementById('tBody').innerHTML=`<tr><td colspan="15"><div class="no-data">⚠️ 데이터를 불러올 수 없습니다.</div></td></tr>`;
   }
 }
 
@@ -357,11 +347,8 @@ function pop(id,vals){const s=document.getElementById(id);vals.forEach(v=>{const
 
 function initFilters(){
   const yms=[...new Set(allData.map(r=>r.ym).filter(Boolean))].sort().reverse();
-  pop('fYm',yms);
-  pop('fNc',uniq(allData,'nc'));
-  pop('fSr',uniq(allData,'sr'));
-  pop('fCt',uniq(allData,'ct'));
-  pop('fFl',uniq(allData,'fl'));
+  pop('fYm',yms);pop('fNc',uniq(allData,'nc'));pop('fSr',uniq(allData,'sr'));
+  pop('fCt',uniq(allData,'ct'));pop('fFl',uniq(allData,'fl'));
   const stockYrs=[...new Set(allData.filter(r=>STOCK_ST.has(r.st)).map(r=>r.yr).filter(Boolean))].sort((a,b)=>b-a);
   pop('fYr',stockYrs);
   ['fYm','fNc','fSr','fCt','fFl','fYr'].forEach(id=>{
@@ -371,7 +358,6 @@ function initFilters(){
 }
 
 function getF(){return{ym:fYm.value,nc:fNc.value,sr:fSr.value,ct:fCt.value,fl:fFl.value,yr:fYr.value}}
-
 function applyBase(data){
   const f=getF();
   return data.filter(r=>{
@@ -384,19 +370,9 @@ function applyBase(data){
     return true;
   });
 }
-
 function resetFilters(){
   ['fYm','fNc','fSr','fCt','fFl','fYr'].forEach(id=>{const el=document.getElementById(id);el.value='';el.classList.remove('on')});
   activeStatus=null;render();
-}
-
-function getAgingGroup(spd){
-  if(spd==null)return null;
-  const d=Number(spd);
-  if(isNaN(d))return null;
-  if(d<=30)return 30;
-  if(d<=60)return 60;
-  return 999;
 }
 
 function render(){
@@ -404,17 +380,16 @@ function render(){
   const stockBase=base.filter(r=>STOCK_ST.has(r.st));
   const otherBase=base.filter(r=>!STOCK_ST.has(r.st));
 
-  // 헤더
   document.getElementById('hStockTotal').textContent=`판매재고 ${stockBase.length.toLocaleString()}건`;
   document.getElementById('hOther').textContent=`기타 ${otherBase.length.toLocaleString()}건`;
 
-  // 오늘 구매 현황
+  // 오늘 구매
   const todayAll=base.filter(r=>r.dt===TODAY);
   const todayJung=todayAll.filter(r=>r.bt==='중고매입').length;
   const todayJa=todayAll.filter(r=>r.bt==='자사매입').length;
   document.getElementById('tkNum').textContent=todayAll.length;
   const tkRows=document.getElementById('tkRows');
-  if(todayAll.length===0){
+  if(!todayAll.length){
     tkRows.innerHTML=`<div class="today-none">신규 구매 없음</div>`;
   } else {
     const series=[...new Set(todayAll.map(r=>r.sr).filter(Boolean))];
@@ -424,34 +399,30 @@ function render(){
       ${series.length?`<div style="font-size:11px;color:var(--t3);margin-top:6px;padding:0 2px">${series.join(', ')}</div>`:''}`;
   }
 
-  // 재고 현황 박스
-  const stockNew=stockBase.filter(r=>r.nc==='신차').length;
-  const stockRe=stockBase.filter(r=>r.nc==='재렌트').length;
+  // 재고 박스
+  const sNew=stockBase.filter(r=>r.nc==='신차').length;
+  const sRe=stockBase.filter(r=>r.nc==='재렌트').length;
   document.getElementById('sbTotal').textContent=stockBase.length.toLocaleString()+'대';
-  document.getElementById('sbNew').textContent=stockNew.toLocaleString()+'대';
-  document.getElementById('sbRe').textContent=stockRe.toLocaleString()+'대';
+  document.getElementById('sbNew').textContent=sNew.toLocaleString()+'대';
+  document.getElementById('sbRe').textContent=sRe.toLocaleString()+'대';
 
   renderStatusStrip(base);
   renderAgingSummary(stockBase);
   renderAging(stockBase);
   renderCharts(stockBase);
-
-  const tableData=activeStatus?base.filter(r=>r.st===activeStatus):stockBase;
   curPage=1;
-  renderTable(tableData);
+  renderTable(activeStatus?base.filter(r=>r.st===activeStatus):stockBase);
 }
 
 function renderStatusStrip(base){
   const strip=document.getElementById('statusStrip');
   strip.innerHTML='';
-  const STOCK_ORDER=['상품화진행중','상품화완료','상품준비','구매준비중','상품','구매완료'];
-  const OTHER_ORDER=['출고(실행)','매각','매각진행중','탁송(출고)','영업 외 출고'];
-  const counts={};
-  base.forEach(r=>{counts[r.st]=(counts[r.st]||0)+1});
-
-  const mkLabel=(text,color)=>{const s=document.createElement('span');s.className='strip-section-label';s.style.color=color;s.textContent=text;return s};
-  const mkDiv=()=>{const d=document.createElement('div');d.className='strip-divider';return d};
-  const mkItem=(st,cfg)=>{
+  const SO=['상품화진행중','상품화완료','상품준비','구매준비중','상품','구매완료'];
+  const OO=['출고(실행)','매각','매각진행중','탁송(출고)','영업 외 출고'];
+  const counts={};base.forEach(r=>{counts[r.st]=(counts[r.st]||0)+1});
+  const mkL=(t,c)=>{const s=document.createElement('span');s.className='strip-section-label';s.style.color=c;s.textContent=t;return s};
+  const mkD=()=>{const d=document.createElement('div');d.className='strip-divider';return d};
+  const mkI=(st,cfg)=>{
     const item=document.createElement('div');
     item.className='strip-item'+(activeStatus===st?' active':'');
     item.style.cssText=`--ic:${cfg.c};--il:${cfg.cl}`;
@@ -459,32 +430,37 @@ function renderStatusStrip(base){
     item.onclick=()=>{activeStatus=activeStatus===st?null:st;render()};
     return item;
   };
-  strip.appendChild(mkLabel('판매재고','#059669'));
-  STOCK_ORDER.filter(k=>counts[k]).forEach(st=>strip.appendChild(mkItem(st,STATUS_CFG[st]||{c:'#64748B',cl:'#F1F5F9'})));
-  strip.appendChild(mkDiv());
-  strip.appendChild(mkLabel('기타','#94A3B8'));
-  OTHER_ORDER.filter(k=>counts[k]).forEach(st=>strip.appendChild(mkItem(st,STATUS_CFG[st]||{c:'#64748B',cl:'#F1F5F9'})));
+  strip.appendChild(mkL('판매재고','#059669'));
+  SO.filter(k=>counts[k]).forEach(st=>strip.appendChild(mkI(st,STATUS_CFG[st]||{c:'#64748B',cl:'#F1F5F9'})));
+  strip.appendChild(mkD());
+  strip.appendChild(mkL('기타','#94A3B8'));
+  OO.filter(k=>counts[k]).forEach(st=>strip.appendChild(mkI(st,STATUS_CFG[st]||{c:'#64748B',cl:'#F1F5F9'})));
 }
 
 function renderAgingSummary(stockBase){
   const total=stockBase.length;
-  const a30=stockBase.filter(r=>getAgingGroup(r.spd)===30).length;
-  const a60=stockBase.filter(r=>getAgingGroup(r.spd)===60).length;
-  const along=stockBase.filter(r=>getAgingGroup(r.spd)===999).length;
-  const cards=[
+  const a30=stockBase.filter(r=>getAgingGroup(r)===30).length;
+  const a60=stockBase.filter(r=>getAgingGroup(r)===60).length;
+  const along=stockBase.filter(r=>getAgingGroup(r)===999).length;
+  document.getElementById('stockSummary').innerHTML=[
     {label:'전체 판매재고',num:total,sub:'판매 가능 차량',cc:'#2563EB'},
     {label:'30일 이하',num:a30,sub:`전체의 ${total>0?((a30/total)*100).toFixed(1):0}%`,cc:'#16A34A'},
     {label:'31~60일 경과',num:a60,sub:`전체의 ${total>0?((a60/total)*100).toFixed(1):0}%`,cc:'#EA580C'},
     {label:'장기재고 (61일+)',num:along,sub:`전체의 ${total>0?((along/total)*100).toFixed(1):0}%`,cc:'#DC2626'},
-  ];
-  document.getElementById('stockSummary').innerHTML=cards.map(c=>`
-    <div class="ss-card" style="--cc:${c.cc}">
-      <div class="sc-label">${c.label}</div>
-      <div class="sc-num">${c.num.toLocaleString()}</div>
-      <div class="sc-sub">${c.sub}</div>
-    </div>`).join('');
+  ].map(c=>`<div class="ss-card" style="--cc:${c.cc}">
+    <div class="sc-label">${c.label}</div>
+    <div class="sc-num">${c.num.toLocaleString()}</div>
+    <div class="sc-sub">${c.sub}</div>
+  </div>`).join('');
 }
 
+function setNcView(nc,btn){
+  ncView=nc;
+  document.querySelectorAll('.nc-tab').forEach(t=>{t.classList.remove('on-blue','on-purple')});
+  btn.classList.add(nc==='신차'?'on-blue':'on-purple');
+  const base=applyBase(allData);
+  renderAging(base.filter(r=>STOCK_ST.has(r.st)));
+}
 function setAgingView(key,btn){
   agingKey=key;
   document.querySelectorAll('.aging-tab').forEach(t=>t.classList.remove('on'));
@@ -494,27 +470,41 @@ function setAgingView(key,btn){
 }
 
 function renderAging(stockBase){
-  const g30=stockBase.filter(r=>getAgingGroup(r.spd)===30);
-  const g60=stockBase.filter(r=>getAgingGroup(r.spd)===60);
-  const glong=stockBase.filter(r=>getAgingGroup(r.spd)===999);
-  const mkRows=(data,color)=>{
+  const ncData=stockBase.filter(r=>r.nc===ncView);
+  const g30=ncData.filter(r=>getAgingGroup(r)===30);
+  const g60=ncData.filter(r=>getAgingGroup(r)===60);
+  const glong=ncData.filter(r=>getAgingGroup(r)===999);
+  const basisLabel=ncView==='신차'?'매입계약일 기준':'상품등록일 기준';
+  const color=ncView==='신차'?'#2563EB':'#7C3AED';
+
+  const mkRows=(data,c)=>{
     const cnt={};
     data.forEach(r=>{const v=r[agingKey];if(v!=null&&v!==''){cnt[v]=(cnt[v]||0)+1}});
     const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
     if(!sorted.length)return'<div class="no-data" style="padding:16px;font-size:12px">해당 없음</div>';
-    return sorted.map(([k,v])=>`<div class="aging-row"><span class="ar-name">${k}</span><span class="ar-cnt" style="color:${color}">${v}대</span></div>`).join('');
+    return sorted.map(([k,v])=>`<div class="aging-row"><span class="ar-name">${k}</span><span class="ar-cnt" style="color:${c}">${v}대</span></div>`).join('');
   };
+
   document.getElementById('agingGrid').innerHTML=`
     <div class="aging-col c30">
-      <div class="aging-col-head"><span class="ag-title">🟢 30일 이하</span><span class="ag-cnt">${g30.length}대</span></div>
+      <div class="aging-col-head">
+        <span class="ag-title">🟢 30일 이하</span>
+        <span class="ag-cnt">${g30.length}대</span>
+      </div>
       <div class="aging-col-body">${mkRows(g30,'#16A34A')}</div>
     </div>
     <div class="aging-col c60">
-      <div class="aging-col-head"><span class="ag-title">🟠 31~60일</span><span class="ag-cnt">${g60.length}대</span></div>
+      <div class="aging-col-head">
+        <span class="ag-title">🟠 31~60일</span>
+        <span class="ag-cnt">${g60.length}대</span>
+      </div>
       <div class="aging-col-body">${mkRows(g60,'#EA580C')}</div>
     </div>
     <div class="aging-col clong">
-      <div class="aging-col-head"><span class="ag-title">🔴 장기재고 (61일+)</span><span class="ag-cnt">${glong.length}대</span></div>
+      <div class="aging-col-head">
+        <span class="ag-title">🔴 장기재고 (61일+)</span>
+        <span class="ag-cnt">${glong.length}대</span>
+      </div>
       <div class="aging-col-body">${mkRows(glong,'#DC2626')}</div>
     </div>`;
 }
@@ -552,11 +542,14 @@ function renderCharts(stockBase){
   renderMiniChart('yrChart',stockBase,'yr','yrBadge');
 }
 
-function getAgingBadge(spd){
-  const g=getAgingGroup(spd);
-  if(g===30)return`<span class="aging-badge" style="background:#DCFCE7;color:#16A34A">${spd}일</span>`;
-  if(g===60)return`<span class="aging-badge" style="background:#FFEDD5;color:#EA580C">${spd}일</span>`;
-  if(g===999)return`<span class="aging-badge" style="background:#FEE2E2;color:#DC2626">${spd}일</span>`;
+function getAgingBadge(r){
+  const d=getElapsed(r);
+  const g=getAgingGroup(r);
+  const basis=r.nc==='신차'?'매입':'상품';
+  if(d==null)return'-';
+  if(g===30)return`<span class="aging-badge" style="background:#DCFCE7;color:#16A34A">${d}일</span>`;
+  if(g===60)return`<span class="aging-badge" style="background:#FFEDD5;color:#EA580C">${d}일</span>`;
+  if(g===999)return`<span class="aging-badge" style="background:#FEE2E2;color:#DC2626">${d}일</span>`;
   return'-';
 }
 
@@ -569,7 +562,7 @@ function renderTable(data){
   const page=data.slice(start,start+PS);
   document.getElementById('resCnt').textContent=`${total.toLocaleString()}건`;
   if(!page.length){
-    tbody.innerHTML=`<tr><td colspan="16"><div class="no-data">🔍 조건에 맞는 차량이 없습니다.</div></td></tr>`;
+    tbody.innerHTML=`<tr><td colspan="15"><div class="no-data">🔍 조건에 맞는 차량이 없습니다.</div></td></tr>`;
     pgInfo.textContent='';pgBtns.innerHTML='';return;
   }
   tbody.innerHTML=page.map(r=>{
@@ -577,6 +570,7 @@ function renderTable(data){
     const price=r.pr?Math.round(r.pr/10000).toLocaleString()+'만':'-';
     const km=r.km?Number(r.km).toLocaleString()+' km':'-';
     const md=(r.md||'-').length>22?r.md.substring(0,22)+'…':(r.md||'-');
+    const basisDay=r.nc==='신차'?(r.bel!=null?r.bel+'일(매입)':'-'):(r.spd!=null?r.spd+'일(상품)':'-');
     return`<tr>
       <td style="font-family:monospace;font-size:11px;color:#94A3B8">${r.id||'-'}</td>
       <td><span class="badge" style="background:${cfg.cl};color:${cfg.c}">${r.st||'-'}</span></td>
@@ -592,8 +586,7 @@ function renderTable(data){
       <td style="color:var(--t2)">${r.cl||'-'}</td>
       <td>${r.loc||'-'}</td>
       <td style="font-size:11px;color:var(--t3)">${r.dt||'-'}</td>
-      <td style="text-align:right">${r.el!=null?r.el+'일':'-'}</td>
-      <td style="text-align:center">${getAgingBadge(r.spd)}</td>
+      <td style="text-align:center">${getAgingBadge(r)}</td>
     </tr>`;
   }).join('');
   pgInfo.textContent=`${(start+1).toLocaleString()}–${Math.min(start+PS,total).toLocaleString()} / ${total.toLocaleString()}건`;
